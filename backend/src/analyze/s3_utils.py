@@ -21,4 +21,5 @@ def download_file_from_s3(key: str, local_path: str):
     s3_client.download_file(S3_BUCKET_NAME, key, local_path)
 
 def upload_json_to_s3(data: dict, key: str):
-    s3_client.put_object(Bucket=S3_BUCKET_NAME, Key=key, Body=json.dumps(data).encode("utf-8"))
+    body = json.dumps(data, ensure_ascii=False, indent=2)
+    s3_client.put_object(Bucket=S3_BUCKET_NAME, Key=key, Body=body)

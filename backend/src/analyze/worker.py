@@ -30,11 +30,12 @@ async def handle_message(message: aio_pika.IncomingMessage):
 
         # 2. Имитация долгого анализа
         print(f"⏳ Processing task {task_id}...")
-        await asyncio.sleep(15)  
+        await asyncio.sleep(1)  
 
         # 3. Загружаем результат в S3
         result_key = f"results/{task_id}.json"
-        result_data = {"film": "sosi", "status": "xuy"}
+        with open(r"C:\Users\Admin\Downloads\Telegram Desktop\PT1.parsed.json", "r", encoding="utf-8") as f:
+            result_data = json.load(f)
         upload_json_to_s3(result_data, result_key)
         result_key = f"{S3_ENDPOINT_URL}/{S3_BUCKET_NAME}/results/{task_id}.json"
         print(f"✅ Task {task_id} done, result uploaded to S3: {result_key}")
